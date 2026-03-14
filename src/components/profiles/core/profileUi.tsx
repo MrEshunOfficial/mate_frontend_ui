@@ -239,8 +239,8 @@ export default function ProfileUI({ adminMode = false }: ProfileUIProps) {
   // ── Loading splash ──────────────────────────────────────────────────────────
   if (loading.profile && !profile) {
     return (
-      <div className="max-w-lg mx-auto">
-        <Card>
+      <div className="max-w-lg mx-auto flex flex-col gap-4">
+        <Card className="overflow-hidden animate-pulse">
           <CardHeader className="pb-0">
             <div className="flex items-start justify-between gap-4">
               <Skeleton className="h-16 w-16 rounded-full" />
@@ -262,28 +262,21 @@ export default function ProfileUI({ adminMode = false }: ProfileUIProps) {
   // ── No profile yet ──────────────────────────────────────────────────────────
   if (exists === false || (!loading.profile && !profile)) {
     return (
-      <div className="max-w-lg mx-auto">
-        <Card>
-          <CardContent className="flex flex-col items-center text-center py-16 gap-4">
-            <div className="text-5xl text-stone-300 leading-none select-none">
-              ◎
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-stone-900 tracking-tight font-mono">
-                No profile yet
-              </h2>
-              <p className="text-sm text-stone-500 mt-1">
-                Set up your profile to get started.
-              </p>
-            </div>
-            <Button
-              onClick={() => router.push("/profile/setup")}
-              className="mt-2"
-            >
-              Create Profile
-            </Button>
-          </CardContent>
-        </Card>
+      <div className="space-y-2">
+        <div className="text-5xl text-stone-300 leading-none select-none">
+          ◎
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-stone-900 tracking-tight font-mono">
+            No profile yet
+          </h2>
+          <p className="text-sm text-stone-500 mt-1">
+            Set up your profile to get started.
+          </p>
+        </div>
+        <Button onClick={() => router.push("/profile/setup")} className="mt-2">
+          Create Profile
+        </Button>
       </div>
     );
   }

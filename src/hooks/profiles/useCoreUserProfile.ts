@@ -185,13 +185,14 @@ export function useProfile(autoFetch = true): UseProfileReturn {
       setErrorKey("mutation", null);
       try {
         const res = await profileAPI.createProfile(body);
-        if (res.profile) {
-          setState((prev) => ({ ...prev, profile: res.profile!, exists: true }));
-        }
-        return res.profile ?? null;
+        // Use res.profile if present, otherwise fall back to an empty object so
+        // the return value is always truthy on a successful API call.
+        const profile = res.profile ?? ({} as Partial<IUserProfile>);
+        setState((prev) => ({ ...prev, profile, exists: true }));
+        return profile;
       } catch (err) {
         setErrorKey("mutation", extractError(err));
-        return null;
+        return null; // only null on actual failure
       } finally {
         setLoadingKey("creating", false);
       }
@@ -301,11 +302,15 @@ export function useProfile(autoFetch = true): UseProfileReturn {
 
   useEffect(() => {
     if (!autoFetch) return;
+    // Check existence first — only fetch profile data if it actually exists
+    // to avoid triggering 404s for new users who haven't created a profile yet.
     fetchExists().then(() => {
-      // Only fetch profile data if the profile actually exists.
-      // `exists` is set on state asynchronously, so we use the returned
-      // value from fetchExists if the API exposed it — for now we just fetch.
-      fetchProfile();
+      setState((current) => {
+        if (current.exists) {
+          fetchProfile();
+        }
+        return current;
+      });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoFetch]);

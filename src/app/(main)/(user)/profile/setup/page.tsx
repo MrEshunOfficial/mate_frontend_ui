@@ -9,17 +9,17 @@ export default function ProfileFormPage() {
   const router = useRouter();
 
   return (
-    <main className="min-h-screen bg-stone-100 flex items-center justify-center px-4 py-12">
+    <main className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md flex flex-col gap-6">
         {/* Page heading */}
         <div className="text-center">
           <span className="inline-block text-4xl leading-none select-none mb-3">
             ◉
           </span>
-          <h1 className="text-2xl font-bold text-stone-900 tracking-tight font-mono">
+          <h1 className="text-2xl font-bold tracking-tight font-mono">
             Get Started
           </h1>
-          <p className="text-sm text-stone-500 mt-1.5">
+          <p className="text-sm mt-1.5">
             Create a profile to start using the platform.
           </p>
         </div>
@@ -31,7 +31,7 @@ export default function ProfileFormPage() {
           </CardContent>
         </Card>
 
-        <p className="text-center text-xs text-stone-400">
+        <p className="text-center text-xs">
           Already have a profile?{" "}
           <a
             href="/profile"

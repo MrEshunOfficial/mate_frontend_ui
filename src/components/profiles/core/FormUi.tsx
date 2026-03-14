@@ -162,8 +162,11 @@ export function ProfileForm({
         return;
       }
 
+      // createProfile only returns null on a caught exception — a truthy
+      // return (even an empty object) means the API call succeeded.
       const result = await createProfile(payload);
-      if (result) {
+
+      if (result !== null) {
         onSuccess?.();
       } else {
         setGlobalError(hookErrors.mutation ?? "Failed to create profile.");
